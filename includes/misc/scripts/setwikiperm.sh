@@ -20,11 +20,11 @@ BSPATH=`echo "$1" | sed -e 's#/$##'`
 /usr/bin/find $BSPATH -type d > $BSDIRLIST
 
 while IFS= read -r files 
-do 
-	if [[ $files == *"pygmentize"* ]]; then
-		/bin/chmod +x $files
-	else 
-	   /bin/chmod -f 644 $files
+do
+	if [[ $file == *"pygmentize"* ]] || [[ $file == *"lua"* ]]; then
+		  /bin/chmod 755 "$file"
+	else
+		 /bin/chmod -f 644 "$file"
 	fi
 done < "$BSFILELIST" &
 
@@ -47,6 +47,3 @@ for i in "${paths[@]}"; do
 		/bin/chown -R $WWW_USER:$WWW_GROUP $i
 	fi
 done
-
-/usr/bin/find $BSPATH/extensions -iname 'create_pygmentize_bundle' -exec /bin/chmod +x {} \;
-/usr/bin/find $BSPATH/extensions -name 'lua' -type f -exec /bin/chmod 755 {} \;
